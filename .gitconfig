@@ -8,7 +8,7 @@
   co = checkout
   cd = checkout -d
   l = log
-  cm = commit
+  cm = commit -m
   nffmerge = merge --no-ff
   logl = log --oneline
   logg = log --graph
@@ -19,11 +19,5 @@
   del-all-br = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
   delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
   pr = browse-remote --pr
-[push]
-	default = simple
-[core]
-  excludesfile = ~/.gitignore
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+[color]
+        ui = auto
