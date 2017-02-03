@@ -19,5 +19,7 @@
   del-all-br = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
   delete-merged-branches = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
   pr = browse-remote --pr
+  cp = cherry-pick
+  refresh= !git fetch origin && git remote prune origin
 [color]
         ui = auto
