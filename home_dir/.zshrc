@@ -22,11 +22,35 @@ function cdls() {
   ls;
 }
 
-# コマンド履歴の保存に関する設定
-# 履歴の場所
-HISTFILE=~/.zhistory
-# 重複するコマンドのhistory削除
-setopt hist_ignore_all_dups
+# 履歴のインクリメンタルサーチ
+function peco-history() {
+  local tac
+  whence tac &> /dev/null tac \
+    && tac="tac" \
+    || tac="tail -r"
+  BUFFER=$(history -n 1 | eval $tac | peco --query "$LBUFFER" --prompt "HISTORY>")
+  CURSOR=$#BUFFER
+}
+
+zle -N peco-history
+bindkey '^r' peco-history
+
+
+# 履歴
+# ※ zsh の history は fc -l のエイリアス
+[ -z $HISTFILE ] && HISTFILE=$HOME/.zsh_history
+
+HISTSIZE=10000 # メモリへの保存件数
+SAVEHIST=10000 # ファイルへの保存件数
+
+setopt extended_history       # タイムスタンプと実行時間を記録
+setopt hist_expire_dups_first # 削除時に重複する履歴から削除
+setopt hist_ignore_all_dups   # 重複するコマンドは履歴に記録しない
+setopt hist_ignore_space      # スペースから始まるコマンドは無視
+setopt hist_verify            # 補完時に編集可能にする
+setopt hist_reduce_blanks     # 重複スペースは除去して履歴に記録する
+setopt inc_append_history     # インクリメンタルサーチに追加
+setopt share_history          # 端末間で履歴を共有
 
 # git ブランチ名を表示させる
 # https://qiita.com/m_yukio/items/16841e5da44fe3e9ba43

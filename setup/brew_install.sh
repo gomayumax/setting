@@ -8,6 +8,7 @@ brew install nkf
 brew install wget
 brew install elixir
 brew install go
+brew install peco
 
 brew cask install hyper
 brew cask install docker
